@@ -1,0 +1,10 @@
+{ 
+    "name": "expressJS-psqlDB-pgAdmin", 
+    "options": { 
+      "allow-unauthenticated": true, 
+      "memory": "256Mi", 
+      "cpu": "1", 
+      "port": 8888, 
+      "http2": false 
+    } 
+  } 
