@@ -1,0 +1,8 @@
+version: '4'  # version of compose format 
+services:
+  asignment2-service:
+    build: ./asignment  # path is relative to docker-compose.yml localtion
+    ports:
+      - 5001:80  # host:container
+    restart: always
+    #http://localhost:5001/
