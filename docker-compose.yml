@@ -10,6 +10,7 @@ services:
       - PGPORT=4040
     volumes:
       - "./psql/datafiles:/var/lib/postgresql/data/testData"
+      - "./psql/initScripts:/docker-entrypoint-initdb.d"
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
