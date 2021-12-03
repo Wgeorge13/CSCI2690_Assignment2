@@ -1,0 +1,39 @@
+version: '3'
+services:
+  psqlDB:
+    image: "postgres"
+    ports:
+      - "4050:4040"
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - PGDATA=/var/lib/postgresql/data/testData
+      - PGPORT=4040
+    volumes:
+      - "./psql/datafiles:/var/lib/postgresql/data/testData"
+      - "./psql/initScripts:/docker-entrypoint-initdb.d"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 8
+  expressJS:
+    image: "node"
+    depends_on:
+      psqlDB:
+        condition: service_healthy
+    ports:
+      - "8888:8888"
+    volumes:
+      - "./psql/nodeService:/app/nodeScripts"
+    working_dir: /app/nodeScripts
+    command: node returnRecordOnPsql.js
+  pgadmin4:
+    image: dpage/pgadmin4
+    depends_on:
+      psqlDB:
+        condition: service_healthy
+    ports:
+      - "4033:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=1234@1234.com
+      - PGADMIN_DEFAULT_PASSWORD=123456
